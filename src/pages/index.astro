@@ -1,7 +1,7 @@
 ---
 import SplitLayout from "../layouts/SplitLayout.astro";
 import List from "../components/TicketList.astro";
-import Chat from "../components/ChatWrapper.astro";
+import ChatWrapper from "../components/ChatWrapper.astro";
 import "../assets/styles/style.css";
 
 ---
@@ -24,7 +24,7 @@ import "../assets/styles/style.css";
   <body>
     <SplitLayout rightWeight={1}>
       <List slot="left" />
-      <Chat slot="right" />
+      <ChatWrapper slot="right" />
     </SplitLayout>
 
     <!-- <script src="script.js"></script> -->

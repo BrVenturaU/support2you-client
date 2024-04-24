@@ -31,7 +31,7 @@ async function renderTickets() {
       ?.classList.remove("nav__item--active");
     target.classList.add("nav__item--active");
     const id = +target.dataset.appId;
-    const ticketSelectedEvent = new CustomEvent("ticketselected", {
+    const ticketSelectedEvent = new CustomEvent("ticket-selected", {
       detail: {
         id,
       },

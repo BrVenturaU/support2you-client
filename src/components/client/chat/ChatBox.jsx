@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks";
+import { useState, useEffect } from "preact/hooks";
 import { Fragment } from "preact/jsx-runtime";
 import ChatForm from "./ChatForm";
 import ChatMessage from "./ChatMessage";
@@ -8,7 +8,17 @@ import UserImg from "../../../assets/images/user.jpg";
 import "./ChatBox.css";
 
 const ChatBox = () => {
+  const [ticketSelected, setTicketSelected] = useState(0);
   const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    window.addEventListener("ticket-selected", (e) => {
+      setTicketSelected(e.detail.id);
+    });
+
+    return () => window.removeEventListener("ticket-selected");
+  }, []);
+
   const handleSendMessage = (message) => {
     setMessages((prevMessages) => [
       ...prevMessages,
@@ -24,7 +34,9 @@ const ChatBox = () => {
         <ChatMessage className="message--bg-light">
           <ChatMessage.Image src={ChatBotImg.src} alt="Chatbot picture." />
           <ChatMessage.Text>
-            ¡Hola! ¿En que puedo ayudarte ahora?
+            {ticketSelected !== 0
+              ? `Viendo Ticket N°: ${ticketSelected}`
+              : "¡Hola! ¿En que puedo ayudarte ahora?"}
           </ChatMessage.Text>
         </ChatMessage>
         {messages.map((message) => {
