@@ -1,3 +1,6 @@
+document.addEventListener("DOMContentLoaded", function() {
+    getItems();
+});
 
 function getItems() {
     fetch('https://jsonplaceholder.typicode.com/posts')
@@ -11,7 +14,6 @@ function getItems() {
             const postsContainer = document.getElementById('search-list');
             postsContainer.innerHTML = '';
 
-        // Recorrer los datos y crear elementos para cada publicación
             data.slice(0, 20).forEach(post => {
             
             const listItem = document.createElement('li');
@@ -22,9 +24,12 @@ function getItems() {
                 listItem.textContent += '...';
             }
 
-             // Agregar evento de clic para manejar la selección
             listItem.addEventListener('click', function() {
                 handleSelection(post.body); 
+            });
+
+            listItem.addEventListener('dblclick', function() {
+                handleDelete(post.id, listItem);
             });
             
             postsContainer.appendChild(listItem);
@@ -34,12 +39,28 @@ function getItems() {
         .catch(error => {
             console.error('Error:', error);
         });
-	
 }
 
+function handleDelete(id, listItem) {
+    if (confirm("¿Estás seguro de que quieres eliminar esta búsqueda?")) {
+        listItem.remove();
+
+        fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+            method: 'DELETE',
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to delete item from API');
+            }
+            console.log('Item deleted successfully from API');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+}
 
 // Función para mostrar la búsqueda completa en pantalla
-
 function handleSelection(body) {
     const selectedPostContainer = document.getElementById('search-details');
     selectedPostContainer.innerHTML = '';
