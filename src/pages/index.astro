@@ -1,6 +1,8 @@
 ---
 import SplitLayout from "../layouts/SplitLayout.astro";
-
+import '../assets/styles/style.css'
+import ListLayout from '../layouts/ListLayout.astro';
+import '../assets/styles/style.css'
 
 ---
 
@@ -10,13 +12,16 @@ import SplitLayout from "../layouts/SplitLayout.astro";
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title> Support2You </title>
 	</head>
 	<body>
+		<div>
+			<ListLayout title="Support2You"/>
+		</div>
 		<h1>Astro</h1>
 		<SplitLayout rightWeight="1">
 			<div slot="left">
-				Ticket List
+				Lista
 			</div>
 			<div slot="right">
 				Chat
@@ -24,3 +29,5 @@ import SplitLayout from "../layouts/SplitLayout.astro";
 		</SplitLayout>
 	</body>
 </html>
+
+
