@@ -1,4 +1,10 @@
 ---
+interface Props{
+  className?: string;
+  leftWeight?: number;
+  rightWeight?: number;
+}
+
 const { className, leftWeight = 0, rightWeight = 0 } = Astro.props;
 ---
 
