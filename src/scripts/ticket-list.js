@@ -15,17 +15,30 @@ async function renderTickets() {
   tickets.forEach((ticket) => {
     const liEl = document.createElement("li");
     liEl.className = "nav__item";
-    liEl.setAttribute("data-id", ticket.id);
+    liEl.setAttribute("data-app-id", ticket.id);
     liEl.textContent = `Ticket N°: ${ticket.id}`;
-
-    liEl.addEventListener("click", function () {
-      console.log(`Item selected: ${liEl.dataset.id}`);
-    });
 
     fragment.appendChild(liEl);
   });
 
   ticketsContainer.appendChild(fragment);
+  ticketsContainer.addEventListener("click", (e) => {
+    const target = e.target;
+    if (target.tagName !== "LI") return;
+
+    ticketsContainer
+      .querySelector(".nav__item--active")
+      ?.classList.remove("nav__item--active");
+    target.classList.add("nav__item--active");
+    const id = +target.dataset.appId;
+    const ticketSelectedEvent = new CustomEvent("ticketselected", {
+      detail: {
+        id,
+      },
+    });
+
+    window.dispatchEvent(ticketSelectedEvent);
+  });
 }
 
-renderTickets()
+renderTickets();

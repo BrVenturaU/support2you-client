@@ -35,6 +35,7 @@
   transition: background-color 250ms ease-in;
 }
 
+.nav__item--active,
 .nav__item:hover {
   background-color: #292830;
 }
