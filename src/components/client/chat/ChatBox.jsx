@@ -24,7 +24,7 @@ const ChatBox = () => {
         <ChatMessage className="message--bg-light">
           <ChatMessage.Image src={ChatBotImg.src} alt="Chatbot picture." />
           <ChatMessage.Text>
-            Hello there! How can I help you today.
+            ¡Hola! ¿En que puedo ayudarte ahora?
           </ChatMessage.Text>
         </ChatMessage>
         {messages.map((message) => {

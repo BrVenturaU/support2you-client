@@ -1,30 +1,31 @@
-document.addEventListener("DOMContentLoaded", function () {
-  getItems();
-});
+const API_URL = import.meta.env.PUBLIC_API_URL;
 
-function getItems() {
-  fetch("https://jsonplaceholder.typicode.com/posts")
-    .then((response) => response.json())
-    .then((data) => {
-      const postsContainer = document.querySelector(".nav__items");
-      const fragment = document.createDocumentFragment();
+export const getTickets = async () => {
+  const response = await fetch(`${API_URL}/tickets`);
+  const body = await response.json();
+  return body.data;
+};
 
-      data.slice(0, 20).forEach((post) => {
-        const liEl = document.createElement("li");
-        liEl.className = "nav__item";
-        liEl.setAttribute("data-id", post.id);
-        liEl.textContent = `Ticket N°: ${post.id}`;
+async function renderTickets() {
+  const ticketsContainer = document.querySelector(".nav__items");
+  const fragment = document.createDocumentFragment();
 
-        liEl.addEventListener("click", function () {
-          console.log("item selected");
-        });
+  const tickets = await getTickets();
 
-        fragment.appendChild(liEl);
-      });
+  tickets.forEach((ticket) => {
+    const liEl = document.createElement("li");
+    liEl.className = "nav__item";
+    liEl.setAttribute("data-id", ticket.id);
+    liEl.textContent = `Ticket N°: ${ticket.id}`;
 
-      postsContainer.appendChild(fragment);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
+    liEl.addEventListener("click", function () {
+      console.log(`Item selected: ${liEl.dataset.id}`);
     });
+
+    fragment.appendChild(liEl);
+  });
+
+  ticketsContainer.appendChild(fragment);
 }
+
+renderTickets()
