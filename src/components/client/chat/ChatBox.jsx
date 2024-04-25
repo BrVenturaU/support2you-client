@@ -6,6 +6,8 @@ import ChatBotImg from "../../../assets/images/chatbot.png";
 import "./ChatBox.css";
 import MessageList from "./MessageList";
 
+import { API_URL } from "../../../scripts/config";
+
 const ChatBox = () => {
   const [ticketSelected, setTicketSelected] = useState(0);
   const [messages, setMessages] = useState([]);
@@ -13,7 +15,7 @@ const ChatBox = () => {
   useEffect(() => {
     window.addEventListener("ticket-selected", async (e) => {
       const response = await fetch(
-        `http://localhost:8080/tickets/${e.detail.id}/messages/`
+        `${API_URL}/tickets/${e.detail.id}/messages/`
       );
       const body = await response.json();
       setTicketSelected(e.detail.id);
@@ -23,15 +25,40 @@ const ChatBox = () => {
     return () => window.removeEventListener("ticket-selected");
   }, []);
 
-  const handleSendMessage = (message) => {
-    setMessages((prevMessages) => [
-      ...prevMessages,
+  const handleSendMessage = async (message) => {
+    const ticketResponse = await fetch(`${API_URL}/tickets`, {
+      method: "POST",
+    });
+    const { data: ticketData } = await ticketResponse.json();
+
+    const messageResponse = await fetch(
+      `${API_URL}/tickets/${ticketData.id}/messages`,
       {
-        id: Math.random(),
-        content: message,
-        role: "user",
-      },
-    ]);
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          content: message,
+        }),
+      }
+    );
+
+    const { data: messageData } = await messageResponse.json();
+
+    setMessages((prevMessages) => {
+      return[
+        ...prevMessages,
+        {
+          ...messageData.user,
+          role: "user",
+        },
+        {
+          ...messageData.assistant,
+          role: "assistant",
+        },
+      ];
+    });
   };
   return (
     <>
