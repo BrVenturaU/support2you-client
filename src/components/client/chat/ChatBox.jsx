@@ -14,7 +14,7 @@ import {
   updateTicketStatus,
 } from "../../../scripts/requests";
 import { TICKET_STATUS } from "../../../scripts/ticket-helpers";
-
+// TODO: "RESUELTO" status validation and new chat feature.
 const ChatBox = () => {
   const [ticketSelected, setTicketSelected] = useState(0);
   const [messages, setMessages] = useState([]);
@@ -49,10 +49,13 @@ const ChatBox = () => {
       );
     }
 
-    const [userMessage, assistantMessage] = await processTicketMessage(
-      ticketId,
-      message
-    );
+    const processMessagePromise = processTicketMessage(ticketId, message);
+
+    toast.promise(processMessagePromise, {
+      loading: "Analizando tu problema...",
+    });
+
+    const [userMessage, assistantMessage] = await processMessagePromise;
 
     setTicketSelected(ticketId);
     setMessages((prevMessages) => {
