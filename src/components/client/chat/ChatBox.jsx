@@ -26,13 +26,18 @@ const ChatBox = () => {
   }, []);
 
   const handleSendMessage = async (message) => {
-    const ticketResponse = await fetch(`${API_URL}/tickets`, {
-      method: "POST",
-    });
-    const { data: ticketData } = await ticketResponse.json();
+    let ticketId = ticketSelected;
+
+    if (ticketId === 0) {
+      const ticketResponse = await fetch(`${API_URL}/tickets`, {
+        method: "POST",
+      });
+      const { data: ticketData } = await ticketResponse.json();
+      ticketId = ticketData.id;
+    }
 
     const messageResponse = await fetch(
-      `${API_URL}/tickets/${ticketData.id}/messages`,
+      `${API_URL}/tickets/${ticketId}/messages`,
       {
         method: "POST",
         headers: {
@@ -45,9 +50,9 @@ const ChatBox = () => {
     );
 
     const { data: messageData } = await messageResponse.json();
-
+    setTicketSelected(ticketId);
     setMessages((prevMessages) => {
-      return[
+      return [
         ...prevMessages,
         {
           ...messageData.user,
