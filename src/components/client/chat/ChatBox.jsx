@@ -73,24 +73,28 @@ const ChatBox = () => {
         label: "Agente",
         onClick: async () => {
           await updateTicketStatus(ticketId, TICKET_STATUS.ABIERTO);
-          window.dispatchEvent(new CustomEvent("ticket-updated"), {
-            detail: {
-              id: ticketId,
-              status: TICKET_STATUS.ABIERTO,
-            },
-          });
+          window.dispatchEvent(
+            new CustomEvent("ticket-updated", {
+              detail: {
+                id: ticketId,
+                status: TICKET_STATUS.ABIERTO,
+              },
+            })
+          );
         },
       },
       cancel: {
         label: "Sí",
         onClick: async () => {
           await updateTicketStatus(ticketId, TICKET_STATUS.RESUELTO);
-          window.dispatchEvent(new CustomEvent("ticket-updated"), {
-            detail: {
-              id: ticketId,
-              status: TICKET_STATUS.RESUELTO,
-            },
-          });
+          window.dispatchEvent(
+            new CustomEvent("ticket-updated", {
+              detail: {
+                id: ticketId,
+                status: TICKET_STATUS.RESUELTO,
+              },
+            })
+          );
         },
       },
     });

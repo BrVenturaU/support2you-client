@@ -59,7 +59,7 @@ window.addEventListener("ticket-created", (e) => {
 window.addEventListener("ticket-updated", (e) => {
   const ticket = e.detail;
   const ticketEl = document.querySelector(
-    `.nav__item [data-app-id="${ticket.id}"]`
+    `.nav__item[data-app-id="${ticket.id}"]`
   );
   ticketEl.setAttribute("data-app-status", ticket.status);
 });
