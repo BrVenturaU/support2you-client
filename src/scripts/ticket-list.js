@@ -6,6 +6,19 @@ export const getTickets = async () => {
   return body.data;
 };
 
+const renderTicket = (ticket) => {
+  const fragment = document.createDocumentFragment();
+
+  const liEl = document.createElement("li");
+  liEl.className = "nav__item";
+  liEl.setAttribute("data-app-id", ticket.id);
+  liEl.textContent = `Ticket N°: ${ticket.id}`;
+
+  fragment.appendChild(liEl);
+
+  return fragment;
+};
+
 async function renderTickets() {
   const ticketsContainer = document.querySelector(".nav__items");
   const fragment = document.createDocumentFragment();
@@ -13,12 +26,8 @@ async function renderTickets() {
   const tickets = await getTickets();
 
   tickets.forEach((ticket) => {
-    const liEl = document.createElement("li");
-    liEl.className = "nav__item";
-    liEl.setAttribute("data-app-id", ticket.id);
-    liEl.textContent = `Ticket N°: ${ticket.id}`;
-
-    fragment.appendChild(liEl);
+    const ticketEl = renderTicket(ticket);
+    fragment.appendChild(ticketEl);
   });
 
   ticketsContainer.appendChild(fragment);
@@ -42,3 +51,11 @@ async function renderTickets() {
 }
 
 renderTickets();
+
+window.addEventListener("ticket-created", (e) => {
+  const ticket = e.detail;
+  const ticketsContainerEl = document.querySelector(".nav__items");
+  const ticketEl = renderTicket(ticket);
+
+  ticketsContainerEl.appendChild(ticketEl);
+});

@@ -34,6 +34,13 @@ const ChatBox = () => {
       });
       const { data: ticketData } = await ticketResponse.json();
       ticketId = ticketData.id;
+      window.dispatchEvent(
+        new CustomEvent("ticket-created", {
+          detail: {
+            id: ticketId,
+          },
+        })
+      );
     }
 
     const messageResponse = await fetch(
