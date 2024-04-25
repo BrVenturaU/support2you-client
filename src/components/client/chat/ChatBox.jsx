@@ -6,7 +6,11 @@ import ChatBotImg from "../../../assets/images/chatbot.png";
 import "./ChatBox.css";
 import MessageList from "./MessageList";
 
-import { API_URL } from "../../../scripts/config";
+import {
+  createTicket,
+  getTicketMessages,
+  processTicketMessage,
+} from "../../../scripts/requests";
 
 const ChatBox = () => {
   const [ticketSelected, setTicketSelected] = useState(0);
@@ -14,12 +18,10 @@ const ChatBox = () => {
 
   useEffect(() => {
     window.addEventListener("ticket-selected", async (e) => {
-      const response = await fetch(
-        `${API_URL}/tickets/${e.detail.id}/messages/`
-      );
-      const body = await response.json();
-      setTicketSelected(e.detail.id);
-      setMessages(body.data.messages);
+      const ticketId = e.detail.id;
+      const messages = await getTicketMessages(ticketId);
+      setTicketSelected(ticketId);
+      setMessages(messages);
     });
 
     return () => window.removeEventListener("ticket-selected");
@@ -29,11 +31,8 @@ const ChatBox = () => {
     let ticketId = ticketSelected;
 
     if (ticketId === 0) {
-      const ticketResponse = await fetch(`${API_URL}/tickets`, {
-        method: "POST",
-      });
-      const { data: ticketData } = await ticketResponse.json();
-      ticketId = ticketData.id;
+      ticketId = await createTicket();
+
       window.dispatchEvent(
         new CustomEvent("ticket-created", {
           detail: {
@@ -43,31 +42,20 @@ const ChatBox = () => {
       );
     }
 
-    const messageResponse = await fetch(
-      `${API_URL}/tickets/${ticketId}/messages`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          content: message,
-        }),
-      }
+    const [userMessage, assistantMessage] = await processTicketMessage(
+      ticketId,
+      message
     );
 
-    const { data: messageData } = await messageResponse.json();
     setTicketSelected(ticketId);
     setMessages((prevMessages) => {
       return [
         ...prevMessages,
         {
-          ...messageData.user,
-          role: "user",
+          ...userMessage,
         },
         {
-          ...messageData.assistant,
-          role: "assistant",
+          ...assistantMessage,
         },
       ];
     });

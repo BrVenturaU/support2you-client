@@ -1,10 +1,4 @@
-import { API_URL } from "./config";
-
-export const getTickets = async () => {
-  const response = await fetch(`${API_URL}/tickets`);
-  const body = await response.json();
-  return body.data;
-};
+import { getTickets } from "./requests";
 
 const renderTicket = (ticket) => {
   const fragment = document.createDocumentFragment();
