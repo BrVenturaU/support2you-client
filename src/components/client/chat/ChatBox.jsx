@@ -1,6 +1,7 @@
 import { useState, useEffect } from "preact/hooks";
 import ChatForm from "./ChatForm";
 import ChatMessage from "./ChatMessage";
+import { Toaster, toast } from "sonner";
 
 import ChatBotImg from "../../../assets/images/chatbot.png";
 import "./ChatBox.css";
@@ -19,9 +20,13 @@ const ChatBox = () => {
   useEffect(() => {
     window.addEventListener("ticket-selected", async (e) => {
       const ticketId = e.detail.id;
-      const messages = await getTicketMessages(ticketId);
+      const messagesPromise = getTicketMessages(ticketId);
+      toast.promise(messagesPromise, {
+        loading: "Cargando mensajes...",
+        success: () => "Los mensajes han sido cargados.",
+      });
       setTicketSelected(ticketId);
-      setMessages(messages);
+      setMessages(await messagesPromise);
     });
 
     return () => window.removeEventListener("ticket-selected");
@@ -59,23 +64,39 @@ const ChatBox = () => {
         },
       ];
     });
+    toast("¿Tu duda ha sido resuelta?", {
+      duration: 12000,
+      description:
+        `Si necesita apoyo de un agente, de clic en "Agente" para que su ticket sea transferido a uno. Si su duda fue resuelta seleccione "Sí". Si desea continuar cierre este mensaje o deje que desaparezca.`,
+      action: {
+        label: "Agente",
+        onClick: () => console.log("Updated ticket status here"),
+      },
+      cancel: {
+        label: 'Sí',
+        onClick: () => console.log("Updated ticket status here"),
+      },
+    });
   };
   return (
     <>
-      <div className="chat">
-        <ChatMessage className="message--bg-light">
-          <ChatMessage.Image src={ChatBotImg.src} alt="Chatbot picture." />
-          <ChatMessage.Text>
-            {ticketSelected !== 0
-              ? `Viendo Ticket N°: ${ticketSelected}`
-              : "¡Hola! ¿En que puedo ayudarte ahora?"}
-          </ChatMessage.Text>
-        </ChatMessage>
+      <Toaster closeButton />
+      <div class="chat-wrapper">
+        <div className="chat">
+          <ChatMessage className="message--bg-light">
+            <ChatMessage.Image src={ChatBotImg.src} alt="Chatbot picture." />
+            <ChatMessage.Text>
+              {ticketSelected !== 0
+                ? `Viendo Ticket N°: ${ticketSelected}`
+                : "¡Hola! ¿En que puedo ayudarte ahora?"}
+            </ChatMessage.Text>
+          </ChatMessage>
 
-        <MessageList messages={messages} />
+          <MessageList messages={messages} />
+        </div>
+
+        <ChatForm onSendMessage={handleSendMessage} />
       </div>
-
-      <ChatForm onSendMessage={handleSendMessage} />
     </>
   );
 };
