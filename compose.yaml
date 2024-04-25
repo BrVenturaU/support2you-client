@@ -15,7 +15,10 @@ services:
     container_name: support2youui
     build:
       context: .
-    image: brventura/support2you-client:1.1.0
+    image: brventura/support2you-client:1.1.1
+    env_file:
+      - path: ./.env
+        required: true
     ports:
       - 4321:80
     depends_on:
