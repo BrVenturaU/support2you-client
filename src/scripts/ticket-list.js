@@ -1,4 +1,5 @@
 import { getTickets } from "./requests";
+import { TICKET_STATUS } from "./ticket-helpers";
 
 const renderTicket = (ticket) => {
   const fragment = document.createDocumentFragment();
@@ -6,6 +7,7 @@ const renderTicket = (ticket) => {
   const liEl = document.createElement("li");
   liEl.className = "nav__item";
   liEl.setAttribute("data-app-id", ticket.id);
+  liEl.setAttribute("data-app-status", ticket.status ?? TICKET_STATUS.NUEVO);
   liEl.textContent = `Ticket N°: ${ticket.id}`;
 
   fragment.appendChild(liEl);
@@ -52,4 +54,12 @@ window.addEventListener("ticket-created", (e) => {
   const ticketEl = renderTicket(ticket);
 
   ticketsContainerEl.appendChild(ticketEl);
+});
+
+window.addEventListener("ticket-updated", (e) => {
+  const ticket = e.detail;
+  const ticketEl = document.querySelector(
+    `.nav__item [data-app-id="${ticket.id}"]`
+  );
+  ticketEl.setAttribute("data-app-status", ticket.status);
 });

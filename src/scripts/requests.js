@@ -16,6 +16,23 @@ export const createTicket = async () => {
   return body.data.id;
 };
 
+export const updateTicketStatus = async (ticketId, status) => {
+  const ticketResponse = await fetch(`${TICKETS_URL}/${ticketId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      status,
+    }),
+  });
+  const body = await ticketResponse.json();
+  return {
+    id: ticketId,
+    ...body.data,
+  };
+};
+
 export const getTicketMessages = async (ticketId) => {
   const response = await fetch(`${TICKETS_URL}/${ticketId}/messages/`);
   const body = await response.json();

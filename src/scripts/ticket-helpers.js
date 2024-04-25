@@ -1,0 +1,7 @@
+export const TICKET_STATUS = Object.freeze({
+  NUEVO: "NUEVO",
+  ABIERTO: "ABIERTO",
+  PENDIENTE: "PENDIENTE",
+  ESPERA: "ESPERA",
+  RESUELTO: "RESUELTO",
+});

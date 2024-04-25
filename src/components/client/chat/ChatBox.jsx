@@ -11,7 +11,9 @@ import {
   createTicket,
   getTicketMessages,
   processTicketMessage,
+  updateTicketStatus,
 } from "../../../scripts/requests";
+import { TICKET_STATUS } from "../../../scripts/ticket-helpers";
 
 const ChatBox = () => {
   const [ticketSelected, setTicketSelected] = useState(0);
@@ -66,15 +68,30 @@ const ChatBox = () => {
     });
     toast("¿Tu duda ha sido resuelta?", {
       duration: 12000,
-      description:
-        `Si necesita apoyo de un agente, de clic en "Agente" para que su ticket sea transferido a uno. Si su duda fue resuelta seleccione "Sí". Si desea continuar cierre este mensaje o deje que desaparezca.`,
+      description: `Si necesita apoyo de un agente, de clic en "Agente" para que su ticket sea transferido a uno. Si su duda fue resuelta seleccione "Sí". Si desea continuar cierre este mensaje o deje que desaparezca.`,
       action: {
         label: "Agente",
-        onClick: () => console.log("Updated ticket status here"),
+        onClick: async () => {
+          await updateTicketStatus(ticketId, TICKET_STATUS.ABIERTO);
+          window.dispatchEvent(new CustomEvent("ticket-updated"), {
+            detail: {
+              id: ticketId,
+              status: TICKET_STATUS.ABIERTO,
+            },
+          });
+        },
       },
       cancel: {
-        label: 'Sí',
-        onClick: () => console.log("Updated ticket status here"),
+        label: "Sí",
+        onClick: async () => {
+          await updateTicketStatus(ticketId, TICKET_STATUS.RESUELTO);
+          window.dispatchEvent(new CustomEvent("ticket-updated"), {
+            detail: {
+              id: ticketId,
+              status: TICKET_STATUS.RESUELTO,
+            },
+          });
+        },
       },
     });
   };
