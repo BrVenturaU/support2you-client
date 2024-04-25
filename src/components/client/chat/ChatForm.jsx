@@ -4,6 +4,7 @@ const ChatForm = ({ onSendMessage }) => {
     e.preventDefault();
     const message = e.target.elements.message.value;
     if (message.trim().length <= 0) return;
+    e.target.reset();
     onSendMessage(message);
   };
 
