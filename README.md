@@ -11,6 +11,7 @@ Este proyecto contiene el cliente/interfaz de usuario de Support2You que permite
 
 ## Ejecución del proyecto
 - Instalación de paquetes: Ejecutar `npm install`.
+- Creación de archivo `.env`: Crear archivo `.env` en la raíz del proyecto y copiar el contenido del archivo `.env.example` cambiando los valores de las variables al correspondiente.
 - Ejecutar proyecto: Ejecutar la aplicación con `npm start` o `npm run dev` (la recarga activa de cambios está habilitada por defecto).
 
 ## Estructura
