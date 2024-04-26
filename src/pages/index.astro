@@ -1,16 +1,32 @@
 ---
+import SplitLayout from "../layouts/SplitLayout.astro";
+import List from "../components/TicketList.astro";
+import ChatWrapper from "../components/ChatWrapper.astro";
+import "../assets/styles/style.css";
 
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Support2You</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <SplitLayout rightWeight={1}>
+      <List slot="left" />
+      <ChatWrapper slot="right" />
+    </SplitLayout>
+
+    <!-- <script src="script.js"></script> -->
+  </body>
 </html>

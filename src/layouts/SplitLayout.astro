@@ -1,0 +1,40 @@
+---
+interface Props{
+  className?: string;
+  leftWeight?: number;
+  rightWeight?: number;
+}
+
+const { className, leftWeight = 0, rightWeight = 0 } = Astro.props;
+---
+
+
+<style>
+  .container {
+    display: flex;
+    align-items: center;
+  }
+
+  .container__pane {
+    flex-grow: var(--weight);
+  }
+</style>
+
+<div class={`container ${className ?? ""}`}>
+  <div
+    class="container__pane"
+    style={{
+      "--weight": leftWeight,
+    }}
+  >
+    <slot name="left" />
+  </div>
+  <div
+    class="container__pane"
+    style={{
+      "--weight": rightWeight,
+    }}
+  >
+    <slot name="right" />
+  </div>
+</div>

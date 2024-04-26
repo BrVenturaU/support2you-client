@@ -1,0 +1,46 @@
+.form {
+  width: 100%;
+  padding: 1rem;
+  background-color: #33343f;
+  border-top: 1px solid #494b59;
+}
+
+.form-wrapper {
+  background-color: #494b59;
+  border-radius: 6px;
+  padding: 0.5rem;
+  display: flex;
+}
+
+.form__control {
+  width: 100%;
+  padding: 5px;
+  border: none;
+  outline: none;
+  background: none;
+  color: #ccc;
+  resize: none;
+  scrollbar-width: none;
+}
+
+.form__control::placeholder {
+  color: #ccc;
+}
+
+.form__btn {
+  display: flex;
+  align-items: center;
+  border: none;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.form__sender {
+  fill: currentColor;
+  height: 1.5em;
+}
+
+.form__sender:hover {
+  fill: #ccc;
+}

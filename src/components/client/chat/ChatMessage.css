@@ -1,0 +1,22 @@
+.message {
+  display: flex;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  gap: 1rem;
+  color: #fff;
+}
+
+.message__image {
+  border-radius: 6px;
+  width: 48px;
+  height: 48px;
+}
+
+.message__text {
+  flex-grow: 1;
+  align-self: center;
+}
+
+.message--bg-light {
+  background-color: #494b59;
+}

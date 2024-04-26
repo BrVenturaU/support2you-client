@@ -11,6 +11,7 @@ Este proyecto contiene el cliente/interfaz de usuario de Support2You que permite
 
 ## Ejecución del proyecto
 - Instalación de paquetes: Ejecutar `npm install`.
+- Creación de archivo `.env`: Crear archivo `.env` en la raíz del proyecto y copiar el contenido del archivo `.env.example` cambiando los valores de las variables al correspondiente.
 - Ejecutar proyecto: Ejecutar la aplicación con `npm start` o `npm run dev` (la recarga activa de cambios está habilitada por defecto).
 
 ## Estructura
@@ -43,4 +44,9 @@ Descrita de la siguiente manera:
 - templates: Componentes estructurales que permiten definir plantillas reutilizables para las páginas de la aplicación.
 
 ## Docker
-Próximamente...
+Para ejecutar Support2YouClient como contenedor existen las siguientes opciones:
+- Obtener la imagen del API con cualquiera de las siguientes opciones:
+    - Realizar el build de la imagen en local: `docker build -t brventura/support2you-client:tagname .`
+    - Descargar la imagen desde DockerHub: `docker pull brventura/support2you-client:tagname`, ver última versión en [Support2You Client repository](https://hub.docker.com/repository/docker/brventura/support2you-client/tags)
+- Ejecutar el contenedor: `docker run --rm -d --name support2you-client -p 4321:80 brventura/support2you-client:tagname` o `docker run -d --name support2you-client -p 4321:80 brventura/support2you-client:tagname` en caso que se quiera preservar el contenedor despues de detenido.
+- Docker compose: `docker compose up --build -d`

@@ -1,0 +1,65 @@
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  overflow: auto;
+  background: #11101d;
+  transition: all 0.5s ease;
+  scrollbar-color: gray white;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+}
+
+.sidebar__header {
+  border-bottom: 0.5px solid gray;
+  padding: 0.5rem 0;
+}
+
+.sidebar__title {
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: 300;
+  color: #fff;
+}
+
+.nav {
+  color: #fff;
+}
+
+.nav__items {
+  list-style-type: none;
+}
+
+.nav__item {
+  --_status-color: var(--status-color, red);
+  position: relative;
+  cursor: pointer;
+  padding: 0.75rem 0 0.75rem 1rem;
+  transition: background-color 250ms ease-in;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.397);
+}
+
+.nav__item--active,
+.nav__item:hover {
+  background-color: #292830;
+}
+
+.nav__item::after{
+  content: "";
+  display: block;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  border-radius: 20px;
+  background-color: var(--_status-color);
+  transform: translateY(-50%);
+}
+
+[data-app-status="ABIERTO"]{
+  --status-color: rgb(0, 183, 255);
+}
+
+[data-app-status="RESUELTO"]{
+  --status-color: rgb(0, 185, 0);
+}

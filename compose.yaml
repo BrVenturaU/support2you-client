@@ -1,0 +1,26 @@
+version: '3.0'
+name: support2you
+services:
+  support2youapi:
+    container_name: support2youapi
+    image: brventura/support2you-api:1.0.1
+    ports:
+      - 8080:8080
+    expose:
+      - 8080
+    env_file:
+      - path: ../support2you-api/.env
+        required: true
+  support2youui:
+    container_name: support2youui
+    build:
+      context: .
+    image: brventura/support2you-client:1.1.1
+    env_file:
+      - path: ./.env
+        required: true
+    ports:
+      - 4321:80
+    depends_on:
+      - support2youapi
+

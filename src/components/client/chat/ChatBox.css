@@ -1,0 +1,14 @@
+.chat-wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.chat {
+  padding: 1rem 0.75rem;
+  overflow-y: auto;
+  scrollbar-color: gray white;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+}
